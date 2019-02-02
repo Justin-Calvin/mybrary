@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/mybrary.iml" filepath="$PROJECT_DIR$/mybrary.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/mybrary_main.iml" filepath="$PROJECT_DIR$/.idea/modules/mybrary_main.iml" group="mybrary" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/mybrary_test.iml" filepath="$PROJECT_DIR$/.idea/modules/mybrary_test.iml" group="mybrary" />
+    </modules>
+  </component>
+</project>

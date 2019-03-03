@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+
+<head th:replace="fragments :: head"></head>
+
+<body class="container-fluid">
+
+    <h1 th:replace="fragments :: logo"></h1>
+    <nav th:replace="fragments :: navigation"></nav>
+
+    <div th:text="${count} + ' results found.'"></div>
+
+    <table class="table">
+        <tr>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Stock</th>
+        </tr>
+
+        <tr th:each="item : ${items}">
+            <td th:text="${item.title}"></td>
+            <td th:text="${item.author}"></td>
+            <td th:text="${item.stock}"></td>
+            <td><a th:href="@{/remove/{id}(id=${item.id})}">Remove</a></td>
+        </tr>
+    </table>
+
+</body>
+</html>

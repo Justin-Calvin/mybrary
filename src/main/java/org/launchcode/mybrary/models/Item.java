@@ -1,6 +1,7 @@
 package org.launchcode.mybrary.models;
 
 
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -16,15 +17,14 @@ public class Item {
     private int id;
 
     @NotNull
-    @Size(min = 1, max = 30, message = "Title must not be empty")
+    @Size(min = 1, max = 100, message = "Title must be between 1-100 characters")
     private String title;
 
     @NotNull
-    @Size(min = 1, max = 30, message = "Author must not be empty")
+    @Size(min = 1, max = 100, message = "Author must be between 1-100 characters")
     private String author;
 
-    @NotNull
-    @Min(value = 1, message = "Item stock must be 1 or higher")
+    @Min(value = 0, message = "Stock must be a positive number")
     private int stock;
 
     public Item(String title, String author, Integer stock) {

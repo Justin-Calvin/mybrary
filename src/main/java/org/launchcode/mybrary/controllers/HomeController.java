@@ -7,9 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
-
 import javax.validation.Valid;
-import java.util.ArrayList;
+
 
 
 @Controller
@@ -58,7 +57,34 @@ public class HomeController {
         Item bye = itemDao.findById(id);
         itemDao.delete(bye);
 
+        return "redirect:/";
+    }
+
+    @RequestMapping(value = "edit/{itemId}", method = RequestMethod.GET)
+    public String displayEditCheeseForm(Model model, @PathVariable int itemId) {
+
+        model.addAttribute("item", itemDao.findById(itemId));
+
+        return "edit";
+    }
+
+    @RequestMapping(value = "edit/{itemId}", method = RequestMethod.POST)
+    public String processEditForm(Model model, @PathVariable int itemId,
+                                  @ModelAttribute @Valid Item newItem,
+                                  Errors errors) {
+
+        if (errors.hasErrors()) {
+            return "edit";
+        }
+
+        Item editedItem = itemDao.findById(itemId);
+        editedItem.setTitle(newItem.getTitle());
+        editedItem.setAuthor(newItem.getAuthor());
+        editedItem.setStock(newItem.getStock());
+        itemDao.save(editedItem);
+
         return "redirect:/search/inventory";
     }
+
 
 }

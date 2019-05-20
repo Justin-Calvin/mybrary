@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+
+<head th:replace="fragments :: head"></head>
+
+
+<body class="container-fluid">
+<div class="container-fluid">
+    <h1 class="display-4" style="font-size:300%;font-family:courier;font-weight:bold" align="center">MyBrary</h1>
+    <p class="lead" style="font-size:120%;font-family:courier;font-weight:bold" align="center">
+        Welcome! Please register and login!
+    </p>
+</div>
+
+<hr class="my-4">
+
+<form method="post" style="max-width:600px;" th:object="${user}">
+    <div class="form-group">
+        <label th:for="username">Username</label>
+        <input class="form-control" th:field="*{username}" />
+        <span th:errors="*{username}" class="error"></span>
+    </div>
+    <div class="form-group">
+        <label th:for="password">Password</label>
+        <input class="form-control" th:field="*{password}" />
+        <span th:errors="*{password}" class="error"></span>
+    </div>
+    <input type="submit" value="Add User" />
+    <a href="/login">Already registered? Login here</a>
+</form>
+
+
+</body>
+</html>

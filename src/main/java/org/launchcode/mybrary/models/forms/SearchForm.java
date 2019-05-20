@@ -3,15 +3,22 @@ package org.launchcode.mybrary.models.forms;
 
 public class SearchForm {
 
-    private String keyword;
+    private String titleTerm;
+
+    private String authorTerm;
 
 
-    public String getKeyword() {
-        return keyword;
+    public String getTitleTerm() { return titleTerm; }
+
+    public void setTitleTerm(String titleTerm) { this.titleTerm = titleTerm; }
+
+    public String getAuthorTerm() {
+        return authorTerm;
     }
 
-    public void setKeyword(String keyword) {
-        this.keyword = keyword;
+    public void setAuthorTerm(String authorTerm) {
+        this.authorTerm = authorTerm;
     }
+
 
 }

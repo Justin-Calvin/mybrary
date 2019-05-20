@@ -5,17 +5,21 @@
 
 <body class="container-fluid">
 
-    <h1 th:replace="fragments :: logo"></h1>
 
-    <a href="/search" style="font-size:200%">Search Inventory</a>
-    <br>
-    <br>
-    <br>
-    <a href="/search/inventory" style="font-size:200%">View Entire Inventory</a>
-    <br>
-    <br>
-    <br>
-    <a href="/add" style="font-size:200%">Add to Inventory</a>
+    <div class="container-fluid">
+        <h1 class="logo">MyBrary</h1>
+        <p class="logoT">
+            Welcome to MyBrary Book Cataloging Service!
+        </p>
+    </div>
+    <hr class="my-4">
+    <div class="text-center">
+         <div class="btn-group-vertical">
+            <a class="btn btn-primary" href="/search" role="button">Search Inventory</a>
+            <a class="btn btn-primary" href="/search/inventory" role="button">View Full Inventory</a>
+            <a class="btn btn-primary" href="/add" role="button">Add Item to Inventory</a>
+         </div>
+    </div>
 
 </body>
 </html>

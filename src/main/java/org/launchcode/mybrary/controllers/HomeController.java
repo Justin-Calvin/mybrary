@@ -1,8 +1,14 @@
 package org.launchcode.mybrary.controllers;
 
 import org.launchcode.mybrary.models.Item;
+import org.launchcode.mybrary.models.User;
 import org.launchcode.mybrary.models.data.ItemDao;
+import org.launchcode.mybrary.models.data.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -14,13 +20,66 @@ import javax.validation.Valid;
 @Controller
 public class HomeController {
 
+    @Configuration
+    @EnableWebSecurity
+    public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+        @Override
+        protected void configure(HttpSecurity security) throws Exception {
+            getHttp()
+                    .csrf().disable();
+            security.httpBasic().disable();
+        }
+
+    }
+
     @Autowired
     private ItemDao itemDao;
 
+    @Autowired
+    private UserDao userDao;
+
     @RequestMapping(value = "")
-    public String home() {
+    public String Landing() {
+
+        return "redirect:/login";
+    }
+
+    @RequestMapping(value = "home")
+    public String HomeAccess(Model model) {
 
         return "home";
+    }
+
+    @RequestMapping(value = "login", method = RequestMethod.GET)
+    public String displayLogin(Model model) {
+
+        return "login";
+    }
+
+    @RequestMapping(value = "login", method = RequestMethod.POST)
+    public String processLogin(Model model) {
+
+        return "redirect:/home";
+    }
+
+    @RequestMapping(value = "addUser", method = RequestMethod.GET)
+    public String displayAddUser(Model model) {
+
+        model.addAttribute(new User());
+
+        return "addUser";
+    }
+
+    @RequestMapping(value = "addUser", method = RequestMethod.POST)
+    public String processAddUser(@ModelAttribute @Valid User newUser, Errors errors, Model model) {
+
+        if (errors.hasErrors()) {
+            return "addUser";
+        }
+
+        userDao.save(newUser);
+        return "login";
     }
 
     @RequestMapping(value = "add", method = RequestMethod.GET)
@@ -57,7 +116,7 @@ public class HomeController {
         Item bye = itemDao.findById(id);
         itemDao.delete(bye);
 
-        return "redirect:/";
+        return "redirect:/home";
     }
 
     @RequestMapping(value = "edit/{itemId}", method = RequestMethod.GET)

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+
+<head th:replace="fragments :: head"></head>
+
+<body class="container-fluid">
+    <div class="container-fluid">
+        <h1 class="display-4" style="font-size:300%;font-family:courier;font-weight:bold" align="center">MyBrary</h1>
+        <p class="lead" style="font-size:120%;font-family:courier;font-weight:bold" align="center">
+        Welcome! Please Login
+        </p>
+    </div>
+    <hr class="my-4">
+    <a href="/addUser">No account? Register Here</a>
+    <form method="post">
+        Enter username : <input type="text" name="username"><br>
+        Enter password : <input type="password" name="password"><br>
+        <input type="submit" value="login">
+    </form>
+</body>
+</html>

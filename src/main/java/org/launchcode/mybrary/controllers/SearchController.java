@@ -4,6 +4,10 @@ import org.launchcode.mybrary.models.Item;
 import org.launchcode.mybrary.models.data.ItemDao;
 import org.launchcode.mybrary.models.forms.SearchForm;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -17,6 +21,7 @@ import java.util.List;
 @Controller
 @RequestMapping(value = "search")
 public class SearchController {
+
 
     @Autowired
     private ItemDao itemDao;
@@ -33,18 +38,18 @@ public class SearchController {
     public String search(Model model,
                          @ModelAttribute @Valid SearchForm searchForm) {
 
-        if (searchForm.getKeyword().length() == 0) {
-            model.addAttribute("error","Field Must Not Be Empty");
+        if (searchForm.getTitleTerm().length() == 0) {
+            model.addAttribute("error","Field Must Have 1-100 characters");
             return "search/search";
         }
 
-        ArrayList<Item> items;
+        ArrayList<Item> titles;
         Integer count;
-        items = itemDao.findByTitle(searchForm.getKeyword());
-        count = items.size();
+        titles = itemDao.findByTitle(searchForm.getTitleTerm());
+        count = titles.size();
 
         model.addAttribute("count", count);
-        model.addAttribute("items", items);
+        model.addAttribute("titles", titles);
 
         return "search/results";
     }

@@ -24,16 +24,13 @@ public class HomeController {
     @Configuration
     @EnableWebSecurity
     public class SecurityConfig extends WebSecurityConfigurerAdapter {
-
         @Override
         protected void configure(HttpSecurity security) throws Exception {
             getHttp()
                     .csrf().disable();
             security.httpBasic().disable();
         }
-
     }
-
     @Autowired
     private ItemDao itemDao;
 

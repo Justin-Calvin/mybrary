@@ -2,6 +2,8 @@ package org.launchcode.mybrary.models;
 
 
 
+import org.springframework.boot.autoconfigure.domain.EntityScan;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -27,34 +29,35 @@ public class Item {
     @Min(value = 0, message = "Stock must be a positive number")
     private int stock;
 
-    public Item(String title, String author, Integer stock) {
-        this.title = title;
-        this.author = author;
-        this.stock = stock;
-    }
-
-    public Item() { }
-
     public int getId() {
         return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getTitle() {
         return title;
     }
 
-    public void setTitle(String title) { this.title = title; }
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
-    public String getAuthor() { return author; }
+    public String getAuthor() {
+        return author;
+    }
 
-    public void setAuthor(String author) { this.author = author; }
+    public void setAuthor(String author) {
+        this.author = author;
+    }
 
-    public Integer getStock() {
+    public int getStock() {
         return stock;
     }
 
-    public void setStock(Integer stock) {
+    public void setStock(int stock) {
         this.stock = stock;
     }
-
 }

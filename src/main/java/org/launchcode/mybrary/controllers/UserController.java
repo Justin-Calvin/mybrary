@@ -5,8 +5,12 @@ import org.launchcode.mybrary.controllers.web.services.SecurityService;
 import org.launchcode.mybrary.controllers.web.services.UserService;
 import org.launchcode.mybrary.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,6 +23,12 @@ import javax.validation.Valid;
 public class UserController {
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private UserDetailsService userDetailsService;
 
     @Autowired
     private SecurityService securityService;
@@ -64,12 +74,17 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public String processlogin(Model model, String error, String logout) {
-        if (error != null)
-            model.addAttribute("error", "Your username and password is invalid.");
+    public String processlogin(Model model, String username, String password) {
 
-        if (logout != null)
-            model.addAttribute("message", "You have been logged out successfully.");
+        UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userDetails, password, userDetails.getAuthorities());
+
+        authenticationManager.authenticate(usernamePasswordAuthenticationToken);
+        if (usernamePasswordAuthenticationToken.isAuthenticated()) {
+            SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+
+            return "redirect:/home";
+        }
 
         return "redirect:/home";
     }

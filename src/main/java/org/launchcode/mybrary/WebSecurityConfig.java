@@ -21,6 +21,8 @@ import org.springframework.ui.Model;
 @EnableWebSecurity
 @Order(1000)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
+
     @Autowired
     private UserDetailsService userDetailsService;
 

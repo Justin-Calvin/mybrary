@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -45,42 +46,6 @@ public class HomeController {
         return "redirect:/login";
     }
 
-    @RequestMapping(value = "home")
-    public String HomeAccess(Model model) {
-
-        return "home";
-    }
-
-    @RequestMapping(value = "login", method = RequestMethod.GET)
-    public String displayLogin(Model model) {
-
-        return "login";
-    }
-
-    @RequestMapping(value = "login", method = RequestMethod.POST)
-    public String processLogin(Model model) {
-
-        return "redirect:/home";
-    }
-
-    @RequestMapping(value = "addUser", method = RequestMethod.GET)
-    public String displayAddUser(Model model) {
-
-        model.addAttribute(new User());
-
-        return "addUser";
-    }
-
-    @RequestMapping(value = "addUser", method = RequestMethod.POST)
-    public String processAddUser(@ModelAttribute @Valid User newUser, Errors errors, Model model) {
-
-        if (errors.hasErrors()) {
-            return "addUser";
-        }
-
-        userDao.save(newUser);
-        return "login";
-    }
 
     @RequestMapping(value = "add", method = RequestMethod.GET)
     public String displayAddForm(Model model) {

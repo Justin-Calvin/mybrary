@@ -1,10 +1,10 @@
 package org.launchcode.mybrary.models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.Set;
+
 
 @Entity
 public class User {
@@ -14,33 +14,58 @@ public class User {
     private int id;
 
     @NotNull
-    @Size(min = 1, max = 10, message = "Username must be between 1-10 characters")
+    @Size(min = 5, max = 40, message = "Please use between 5 and 40 characters.")
     private String username;
 
     @NotNull
-    @Size(min = 1, max = 20, message = "Password must be between 1-20 characters")
+    @Size(min = 8, message = "Please use between 8 and 40 characters.")
     private String password;
 
-    public User(String username, String password) {
-        this.username = username;
-        this.password = password;
-    }
+    @Transient
+    private String passwordConfirm;
 
-    public User() { }
+    @ManyToMany
+    private Set<Role> roles;
 
     public int getId() {
         return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getUsername() {
         return username;
     }
 
-    public void setUsername(String username) { this.username = username; }
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
-    public String getPassword() { return password; }
+    public String getPassword() {
+        return password;
+    }
 
-    public void setPassword(String password) { this.password = password; }
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
+    public String getPasswordConfirm() {
+        return passwordConfirm;
+    }
+
+    public void setPasswordConfirm(String passwordConfirm) {
+        this.passwordConfirm = passwordConfirm;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
 
 }
+

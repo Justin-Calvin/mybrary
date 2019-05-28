@@ -1,17 +1,18 @@
 package org.launchcode.mybrary.models.data;
 
+
+import org.launchcode.mybrary.models.Role;
 import org.launchcode.mybrary.models.User;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
-
-
+import java.util.Set;
 
 @Repository
 @Transactional
-public interface UserDao extends CrudRepository<User, Integer> {
+public interface RoleDao extends CrudRepository<Role, Integer> {
 
-    User findByUsername(String username);
+    Set<Role> findAll();
 
 }

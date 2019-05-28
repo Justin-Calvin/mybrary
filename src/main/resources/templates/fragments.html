@@ -15,13 +15,21 @@
     <hr>
     MyBrary
     <hr>
+    <div class="container">
+        <div>
+            <form id="logoutForm" method="POST" action="/logout">
+                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+            </form>
+        </div>
+    </div>
 </h2>
 
 
 <nav th:fragment="navigation">
     <a href="/search">Search</a> |
     <a href="/search/inventory">View Inventory</a> |
-    <a href="/add">Add Item</a>
+    <a href="/add">Add Item</a> |
+    <a onclick="document.forms['logoutForm'].submit()">Logout</a>
 </nav>
 
 </body>

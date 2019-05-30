@@ -1,6 +1,5 @@
-package org.launchcode.mybrary.controllers.web;
+package org.launchcode.mybrary.controllers.services;
 
-import org.launchcode.mybrary.controllers.web.services.UserService;
 import org.launchcode.mybrary.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

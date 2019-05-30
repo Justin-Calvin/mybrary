@@ -1,4 +1,4 @@
-package org.launchcode.mybrary.controllers.web.services;
+package org.launchcode.mybrary.controllers.services;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,4 +1,4 @@
-package org.launchcode.mybrary.controllers.web.services;
+package org.launchcode.mybrary.controllers.services;
 
 public interface SecurityService {
     String findLoggedInUsername();

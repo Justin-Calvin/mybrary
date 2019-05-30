@@ -19,30 +19,12 @@ import javax.validation.Valid;
 
 
 @Controller
-public class HomeController {
+public class ItemController {
 
-    @Configuration
-    @EnableWebSecurity
-    public class SecurityConfig extends WebSecurityConfigurerAdapter {
-        @Override
-        protected void configure(HttpSecurity security) throws Exception {
-            getHttp()
-                    .csrf().disable();
-            security.httpBasic().disable();
-        }
-    }
     @Autowired
     private ItemDao itemDao;
-
     @Autowired
     private UserDao userDao;
-
-    @RequestMapping(value = "")
-    public String Landing() {
-
-        return "redirect:/login";
-    }
-
 
     @RequestMapping(value = "add", method = RequestMethod.GET)
     public String displayAddForm(Model model) {

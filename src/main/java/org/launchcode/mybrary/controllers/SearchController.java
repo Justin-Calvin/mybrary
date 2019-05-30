@@ -27,7 +27,7 @@ public class SearchController {
     private ItemDao itemDao;
 
     @RequestMapping(value = "")
-    public String index(Model model) {
+    public String searchForm(Model model) {
 
         model.addAttribute(new SearchForm());
 
@@ -35,7 +35,7 @@ public class SearchController {
     }
 
     @RequestMapping(value = "results")
-    public String search(Model model,
+    public String searchResults(Model model,
                          @ModelAttribute @Valid SearchForm searchForm) {
 
         if (searchForm.getTitleTerm().length() == 0) {
@@ -55,7 +55,7 @@ public class SearchController {
     }
 
     @RequestMapping(value = "inventory")
-    public String search(Model model) {
+    public String viewInventory(Model model) {
 
         model.addAttribute("count",itemDao.count());
         model.addAttribute("items",itemDao.findAll());

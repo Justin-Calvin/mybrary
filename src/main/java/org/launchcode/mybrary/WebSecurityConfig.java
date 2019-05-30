@@ -21,18 +21,19 @@ import org.springframework.ui.Model;
 @EnableWebSecurity
 @Order(1000)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-
-
-    @Autowired
-    private UserDetailsService userDetailsService;
-
-    @Bean
-    public BCryptPasswordEncoder bCryptPasswordEncoder() {
-        return new BCryptPasswordEncoder();
+    @Configuration
+    @EnableWebSecurity
+    public class SecurityConfig extends WebSecurityConfigurerAdapter {
+        @Override
+        protected void configure(HttpSecurity security) throws Exception {
+            getHttp()
+                    .csrf().disable();
+            security.httpBasic().disable();
+        }
     }
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+
         http
                 .authorizeRequests()
                     .antMatchers("/resources/**", "/addUser").permitAll()
@@ -45,6 +46,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout()
                 .logoutSuccessUrl("/login.html")
                 .permitAll();
+    }
+    @Autowired
+    private UserDetailsService userDetailsService;
+    @Bean
+    public BCryptPasswordEncoder bCryptPasswordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 
     @Bean

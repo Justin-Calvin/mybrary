@@ -5,6 +5,9 @@
 
 <body class="container-fluid">
 
+    <form id="logoutForm" method="POST" action="/logout">
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+    </form>
 
     <div class="container-fluid">
         <h1 class="logo">MyBrary</h1>
@@ -12,11 +15,12 @@
     </div>
     <hr class="my-4">
     <div class="text-center">
-         <div class="btn-group-vertical">
+         <a class="btn-group-vertical">
             <a class="btn btn-primary" href="/search" role="button">Search Inventory</a>
             <a class="btn btn-primary" href="/search/inventory" role="button">View Full Inventory</a>
             <a class="btn btn-primary" href="/add" role="button">Add Item to Inventory</a>
-         </div>
+            <a class="btn btn-primary" onclick="document.forms['logoutForm'].submit()">Log Out</a>
+         </a>
     </div>
 
 </body>

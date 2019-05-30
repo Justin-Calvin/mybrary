@@ -1,16 +1,13 @@
 package org.launchcode.mybrary.controllers;
 
-import org.launchcode.mybrary.controllers.web.UserValidator;
-import org.launchcode.mybrary.controllers.web.services.SecurityService;
-import org.launchcode.mybrary.controllers.web.services.UserService;
-import org.launchcode.mybrary.models.Item;
+import org.launchcode.mybrary.controllers.services.SecurityService;
+import org.launchcode.mybrary.controllers.services.UserService;
+import org.launchcode.mybrary.controllers.services.UserValidator;
 import org.launchcode.mybrary.models.User;
 import org.launchcode.mybrary.models.data.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -21,8 +18,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
 
 @Controller
 public class UserController {

@@ -24,6 +24,9 @@ public class User {
     @Transient
     private String passwordConfirm;
 
+    private boolean enabled;
+    private boolean tokenExpired;
+
     @ManyToMany
     private Set<Role> roles;
 
@@ -59,6 +62,7 @@ public class User {
         this.passwordConfirm = passwordConfirm;
     }
 
+
     public Set<Role> getRoles() {
         return roles;
     }
@@ -67,5 +71,20 @@ public class User {
         this.roles = roles;
     }
 
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public boolean isTokenExpired() {
+        return tokenExpired;
+    }
+
+    public void setTokenExpired(boolean tokenExpired) {
+        this.tokenExpired = tokenExpired;
+    }
 }
 

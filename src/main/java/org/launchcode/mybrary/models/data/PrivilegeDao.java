@@ -1,9 +1,6 @@
 package org.launchcode.mybrary.models.data;
 
-
 import org.launchcode.mybrary.models.Privilege;
-import org.launchcode.mybrary.models.Role;
-import org.launchcode.mybrary.models.User;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -12,9 +9,9 @@ import java.util.Set;
 
 @Repository
 @Transactional
-public interface RoleDao extends CrudRepository<Role, Integer> {
+public interface PrivilegeDao extends CrudRepository<Privilege, Integer> {
 
-    Set<Role> findAll();
-    Role findByName(String name);
+    Set<Privilege> findAll();
+    Privilege findByName(String name);
 
 }

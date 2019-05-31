@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.Set;
 
 
-@Entity
+    @Entity
     public class Role {
 
         @Id
@@ -15,6 +15,17 @@ import java.util.Set;
 
         @ManyToMany(mappedBy = "roles")
         private Set<User> users;
+
+        @ManyToMany
+        @JoinTable(
+                name = "roles_privileges",
+                joinColumns = @JoinColumn(
+                        name = "role_id", referencedColumnName = "id"),
+                inverseJoinColumns = @JoinColumn(
+                        name = "privilege_id", referencedColumnName = "id"))
+        private Set<Privilege> privileges;
+
+
 
         public int getId() {
             return id;
@@ -38,5 +49,13 @@ import java.util.Set;
 
         public void setUsers(Set<User> users) {
             this.users = users;
+        }
+
+        public Set<Privilege> getPrivileges() {
+            return privileges;
+        }
+
+        public void setPrivileges(Set<Privilege> privileges) {
+            this.privileges = privileges;
         }
     }

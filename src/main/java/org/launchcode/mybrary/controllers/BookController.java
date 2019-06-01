@@ -64,7 +64,7 @@ public class BookController {
     }
 
     @RequestMapping(value = "edit/{bookId}", method = RequestMethod.GET)
-    public String displayEditCheeseForm(Model model, @PathVariable int bookId) {
+    public String displayEditForm(Model model, @PathVariable int bookId) {
 
         model.addAttribute("book", bookDao.findById(bookId));
 
@@ -73,18 +73,18 @@ public class BookController {
 
     @RequestMapping(value = "edit/{bookId}", method = RequestMethod.POST)
     public String processEditForm(Model model, @PathVariable int bookId,
-                                  @ModelAttribute @Valid Book newbook,
+                                  @ModelAttribute @Valid Book newBook,
                                   Errors errors) {
 
         if (errors.hasErrors()) {
             return "edit";
         }
 
-        Book editedbook = bookDao.findById(bookId);
-        editedbook.setTitle(newbook.getTitle());
-        editedbook.setAuthor(newbook.getAuthor());
-        editedbook.setStock(newbook.getStock());
-        bookDao.save(editedbook);
+        Book editedBook = bookDao.findById(bookId);
+        editedBook.setTitle(newBook.getTitle());
+        editedBook.setAuthor(newBook.getAuthor());
+        editedBook.setStock(newBook.getStock());
+        bookDao.save(editedBook);
 
         return "redirect:/search/inventory";
     }

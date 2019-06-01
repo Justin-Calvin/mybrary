@@ -58,7 +58,7 @@ public class SearchController {
     public String viewInventory(Model model) {
 
         model.addAttribute("count",bookDao.count());
-        model.addAttribute("items",bookDao.findAll());
+        model.addAttribute("books",bookDao.findAll());
 
         return "search/inventory";
     }

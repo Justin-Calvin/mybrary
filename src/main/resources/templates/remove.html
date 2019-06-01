@@ -11,7 +11,7 @@
 <div class="container-fluid" align="center" style="color:red; font-family:courier; font-weight:bold;">
     CONFIRM DELETION</div>
 <div class="container-fluid" align="center" style="color:red; font-family:courier; font-weight:bold;">
-    Are you sure you would like to remove this item?</div>
+    Are you sure you would like to remove this book?</div>
 
 <table class="table">
     <tr>
@@ -20,15 +20,15 @@
         <th>Stock</th>
     </tr>
     <tr>
-        <td th:text="${item.title}"></td>
-        <td th:text="${item.author}"></td>
-        <td th:text="${item.stock}"></td>
+        <td th:text="${book.title}"></td>
+        <td th:text="${book.author}"></td>
+        <td th:text="${book.stock}"></td>
     </tr>
 </table>
 <form method="post">
-    <input type="hidden" th:value="${item.id}" name="id" />
-    <input type="submit" value="Remove Item">
-    <input type="submit" value="Keep item" formaction="/">
+    <input type="hidden" th:value="${book.id}" name="id" />
+    <input type="submit" value="Remove book">
+    <input type="submit" value="Keep book" formaction="/">
 </form>
 
 

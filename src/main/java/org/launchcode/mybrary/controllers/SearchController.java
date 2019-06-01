@@ -1,7 +1,7 @@
 package org.launchcode.mybrary.controllers;
 
-import org.launchcode.mybrary.models.Item;
-import org.launchcode.mybrary.models.data.ItemDao;
+import org.launchcode.mybrary.models.Book;
+import org.launchcode.mybrary.models.data.BookDao;
 import org.launchcode.mybrary.models.forms.SearchForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -24,7 +24,7 @@ public class SearchController {
 
 
     @Autowired
-    private ItemDao itemDao;
+    private BookDao bookDao;
 
     @RequestMapping(value = "")
     public String searchForm(Model model) {
@@ -43,9 +43,9 @@ public class SearchController {
             return "search/search";
         }
 
-        ArrayList<Item> titles;
+        ArrayList<Book> titles;
         Integer count;
-        titles = itemDao.findByTitle(searchForm.getTitleTerm());
+        titles = bookDao.findByTitle(searchForm.getTitleTerm());
         count = titles.size();
 
         model.addAttribute("count", count);
@@ -57,8 +57,8 @@ public class SearchController {
     @RequestMapping(value = "inventory")
     public String viewInventory(Model model) {
 
-        model.addAttribute("count",itemDao.count());
-        model.addAttribute("items",itemDao.findAll());
+        model.addAttribute("count",bookDao.count());
+        model.addAttribute("items",bookDao.findAll());
 
         return "search/inventory";
     }

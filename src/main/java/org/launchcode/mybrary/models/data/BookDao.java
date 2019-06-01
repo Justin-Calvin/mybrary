@@ -1,7 +1,7 @@
 package org.launchcode.mybrary.models.data;
 
 
-import org.launchcode.mybrary.models.Item;
+import org.launchcode.mybrary.models.Book;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -11,11 +11,11 @@ import java.util.*;
 
 @Repository
 @Transactional
-public interface ItemDao extends CrudRepository<Item, Integer> {
+public interface BookDao extends CrudRepository<Book, Integer> {
 
-    ArrayList<Item> findByTitle(String title);
-    ArrayList<Item> findByAuthor(String author);
-    Item findById(int id);
+    ArrayList<Book> findByTitle(String title);
+    ArrayList<Book> findByAuthor(String author);
+    Book findById(int id);
 
 }
 

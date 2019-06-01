@@ -1,8 +1,8 @@
 package org.launchcode.mybrary.controllers;
 
-import org.launchcode.mybrary.models.Item;
+import org.launchcode.mybrary.models.Book;
 import org.launchcode.mybrary.models.User;
-import org.launchcode.mybrary.models.data.ItemDao;
+import org.launchcode.mybrary.models.data.BookDao;
 import org.launchcode.mybrary.models.data.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -19,72 +19,72 @@ import javax.validation.Valid;
 
 
 @Controller
-public class ItemController {
+public class BookController {
 
     @Autowired
-    private ItemDao itemDao;
+    private BookDao bookDao;
     @Autowired
     private UserDao userDao;
 
     @RequestMapping(value = "add", method = RequestMethod.GET)
     public String displayAddForm(Model model) {
 
-        model.addAttribute(new Item());
+        model.addAttribute(new Book());
 
         return "add";
     }
 
     @RequestMapping(value = "add", method = RequestMethod.POST)
-    public String processAddForm(@ModelAttribute @Valid Item newItem, Errors errors, Model model) {
+    public String processAddForm(@ModelAttribute @Valid Book newbook, Errors errors, Model model) {
 
         if (errors.hasErrors()) {
             return "add";
         }
 
-        itemDao.save(newItem);
-        model.addAttribute("success","Item has been registered!");
+        bookDao.save(newbook);
+        model.addAttribute("success","book has been registered!");
         return "add";
     }
 
     @RequestMapping(value = "remove/{id}", method = RequestMethod.GET)
-    public String confirmRemoveItem(Model model, @PathVariable int id) {
+    public String confirmRemovebook(Model model, @PathVariable int id) {
 
-        model.addAttribute("item",itemDao.findById(id));
+        model.addAttribute("book",bookDao.findById(id));
 
         return "remove";
     }
 
     @RequestMapping(value = "remove/{id}", method = RequestMethod.POST)
-    public String processRemoveItem(@PathVariable int id) {
+    public String processRemovebook(@PathVariable int id) {
 
-        Item bye = itemDao.findById(id);
-        itemDao.delete(bye);
+        Book bye = bookDao.findById(id);
+        bookDao.delete(bye);
 
         return "redirect:/home";
     }
 
-    @RequestMapping(value = "edit/{itemId}", method = RequestMethod.GET)
-    public String displayEditCheeseForm(Model model, @PathVariable int itemId) {
+    @RequestMapping(value = "edit/{bookId}", method = RequestMethod.GET)
+    public String displayEditCheeseForm(Model model, @PathVariable int bookId) {
 
-        model.addAttribute("item", itemDao.findById(itemId));
+        model.addAttribute("book", bookDao.findById(bookId));
 
         return "edit";
     }
 
-    @RequestMapping(value = "edit/{itemId}", method = RequestMethod.POST)
-    public String processEditForm(Model model, @PathVariable int itemId,
-                                  @ModelAttribute @Valid Item newItem,
+    @RequestMapping(value = "edit/{bookId}", method = RequestMethod.POST)
+    public String processEditForm(Model model, @PathVariable int bookId,
+                                  @ModelAttribute @Valid Book newbook,
                                   Errors errors) {
 
         if (errors.hasErrors()) {
             return "edit";
         }
 
-        Item editedItem = itemDao.findById(itemId);
-        editedItem.setTitle(newItem.getTitle());
-        editedItem.setAuthor(newItem.getAuthor());
-        editedItem.setStock(newItem.getStock());
-        itemDao.save(editedItem);
+        Book editedbook = bookDao.findById(bookId);
+        editedbook.setTitle(newbook.getTitle());
+        editedbook.setAuthor(newbook.getAuthor());
+        editedbook.setStock(newbook.getStock());
+        bookDao.save(editedbook);
 
         return "redirect:/search/inventory";
     }

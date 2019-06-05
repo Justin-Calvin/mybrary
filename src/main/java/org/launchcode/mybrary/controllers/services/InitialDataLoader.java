@@ -55,14 +55,8 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
         Set<Privilege> userPrivileges = new HashSet<>(Arrays.asList(readPrivilege));
         createRoleIfNotFound("ROLE_ADMIN", adminPrivileges);
         createRoleIfNotFound("ROLE_USER", userPrivileges);
-        //**INITIALIZE ADMIN USER**//
-        Role adminRole = roleDao.findByName("ROLE_ADMIN");
-        User user = new User();
-        user.setUsername("Administrator");
-        user.setPassword(bCryptPasswordEncoder.encode("Administrator"));
-        user.setRoles(new HashSet<>(Arrays.asList(adminRole)));
-        user.setEnabled(true);
-        userService.save(user);
+
+
 
         alreadySetup = true;
     }

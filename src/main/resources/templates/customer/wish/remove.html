@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+
+<head th:replace="fragments :: head"></head>
+
+<body class="container-fluid">
+
+<h1 th:replace="fragments :: logo"></h1>
+<nav th:replace="fragments :: navigation"></nav>
+
+<div class="container-fluid" align="center" style="color:red; font-family:courier; font-weight:bold;">
+    CONFIRM DELETION</div>
+<div class="container-fluid" align="center" style="color:red; font-family:courier; font-weight:bold;">
+    Are you sure you would like to remove this wish?</div>
+
+<table class="table">
+    <tr>
+        <th>Title</th>
+        <th>Author</th>
+
+    </tr>
+    <tr>
+        <td th:text="${wishOrder.Title}"></td>
+        <td th:text="${wishOrder.Author}"></td>
+
+    </tr>
+</table>
+<form method="post">
+    <input type="hidden" th:value="${wishOrder.id}" name="id" />
+    <input type="submit" value="Remove wish">
+    <input type="submit" value="Keep wish" href="/customer/list">
+</form>
+
+
+</body>

@@ -3,7 +3,8 @@ package org.launchcode.mybrary.controllers;
 import org.launchcode.mybrary.controllers.services.UserValidator;
 import org.launchcode.mybrary.controllers.services.SecurityService;
 import org.launchcode.mybrary.controllers.services.UserService;
-import org.launchcode.mybrary.models.User;
+import org.launchcode.mybrary.models.*;
+import org.launchcode.mybrary.models.data.BookOrderDao;
 import org.launchcode.mybrary.models.data.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -18,6 +19,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @Controller
 public class UserController {
@@ -35,6 +38,8 @@ public class UserController {
     private BCryptPasswordEncoder bCryptPasswordEncoder;
     @Autowired
     private UserDao userDao;
+    @Autowired
+    private BookOrderDao bookOrderDao;
 
 
 
@@ -54,14 +59,14 @@ public class UserController {
     public String processlogin(User userForm, Model model, Errors errors) {
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "username", "NotEmpty");
-        if (userForm.getUsername().length() < 6 || userForm.getUsername().length() > 32) {
+        if (userForm.getUsername().length() < 5 || userForm.getUsername().length() > 40) {
             errors.rejectValue("username", "Size.userForm.username");
         }
         if (userService.findByUsername(userForm.getUsername()) == null) {
             errors.rejectValue("username", "InvalidUser.userForm.username");
         }
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "NotEmpty");
-        if (userForm.getPassword().length() < 8 || userForm.getPassword().length() > 32) {
+        if (userForm.getPassword().length() < 5 || userForm.getPassword().length() > 40) {
             errors.rejectValue("password", "Size.userForm.password");
         }
         if (!bCryptPasswordEncoder.matches(userForm.getPassword(),
@@ -89,34 +94,182 @@ public class UserController {
         model.addAttribute("message","User authentication failed.");
         return "login";
     }
-    @RequestMapping(value = "home")
+    @GetMapping(value = "home")
     public String HomeAccess(Model model) {
 
-        model.addAttribute("username", SecurityContextHolder.getContext().getAuthentication().getName());
+        User user = userDao.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        model.addAttribute("user",user);
+        model.addAttribute("username",user.getUsername());
 
-        return "home";
+        return "user/home";
     }
+
     @GetMapping("/addUser")
     public String addUser(Model model) {
         model.addAttribute("user", new User());
 
-        return "addUser";
+        return "user/addUser";
     }
     @PostMapping("/addUser")
     public String addUser(@ModelAttribute("user") User userForm, BindingResult bindingResult, Errors errors) {
         userValidator.validate(userForm, bindingResult);
 
         if (bindingResult.hasErrors()) {
-            return "addUser";
+            return "user/addUser";
         }
         if (errors.hasErrors()) {
-            return "addUser";
+            return "user/addUser";
         }
 
         userService.save(userForm);
         securityService.autoLogin(userForm.getUsername(), userForm.getPasswordConfirm());
 
         return "redirect:/home";
+    }
+    @GetMapping(value = "user/{id}/edit")
+    public String displayuserEdit(Model model, @PathVariable int id) {
+
+        User user = userDao.findById(id);
+        model.addAttribute("user", user);
+
+        return "user/editUser";
+    }
+    @PostMapping(value = "user/{id}/edit")
+    public String processuserEdit(Model model, @PathVariable int id,
+                                  @ModelAttribute @Valid User newUser, Errors errors) {
+
+        if (errors.hasErrors()) {
+            return "user/editUser";
+        }
+        User edit = userDao.findById(id);
+        edit.setUsername(newUser.getUsername());
+        edit.setPassword(newUser.getPassword());
+        userService.save(edit);
+
+        return "redirect:/";
+    }
+    @GetMapping(value = "user/{id}/remove")
+    public String confirmRemoveuser(Model model, @PathVariable int id) {
+
+        User user = userDao.findById(id);
+        model.addAttribute("user",user);
+
+        return "user/remove";
+    }
+    @PostMapping(value = "user/{id}/remove")
+    public String processRemoveuser(Model model, @PathVariable int id) {
+
+        User bye = userDao.findById(id);
+        userDao.delete(bye);
+
+        return "redirect:/";
+    }
+
+
+    @GetMapping(value = "user/{id}/orders")
+    public String displayOrders(Model model, @PathVariable int id) {
+
+        model.addAttribute("username",userDao.findById(id).getUsername());
+        model.addAttribute("user",userDao.findById(id));
+        model.addAttribute("orders",userDao.findById(id).getOrders());
+
+
+        return "user/orders";
+    }
+    @GetMapping(value = "user/{id}/order/add")
+    public String addOrderForm(Model model, @PathVariable int id) {
+
+        model.addAttribute("user",userDao.findById(id));
+        model.addAttribute("order", new BookOrder());
+
+        return "user/order/addOrder";
+    }
+    @PostMapping(value = "user/{id}/order/add")
+    public String processAddOrder(Model model, @PathVariable int id,
+                                     @ModelAttribute @Valid BookOrder newOrder,
+                                     Errors errors) {
+        if (errors.hasErrors()) {
+            return "user/order/addOrder";
+        }
+        BookOrder order = bookOrderDao.save(newOrder);
+        User user = userDao.findById(id);
+        user.getOrders().add(order);
+        userDao.save(user);
+
+        model.addAttribute("user",user);
+        model.addAttribute("orders",user.getOrders());
+
+        return "user/orders";
+    }
+    @GetMapping(value = "user/order/remove/{id}")
+    public String confirmRemovefavorite(Model model, @PathVariable int id) {
+
+        BookOrder order = bookOrderDao.findById(id);
+        model.addAttribute("bookOrder",order);
+
+        return "user/order/removeOrder";
+    }
+    @PostMapping(value = "user/order/remove/{id}")
+    public String processRemovefavorite(Model model, @PathVariable int id) {
+
+        BookOrder bye = bookOrderDao.findById(id);
+        bookOrderDao.delete(bye);
+
+        return "redirect:/home";
+    }
+    @GetMapping(value = "user/order/edit/{id}")
+    public String displayfavoriteEdit(Model model, @PathVariable int id) {
+
+
+        BookOrder order = bookOrderDao.findById(id);
+        model.addAttribute("bookOrder",order);
+
+        return "user/order/editOrder";
+    }
+    @PostMapping(value = "user/order/edit/{id}")
+    public String processfavoriteEdit(Model model, @PathVariable int id,
+                                      @ModelAttribute @Valid BookOrder newOrder, Errors errors) {
+
+        if (errors.hasErrors()) {
+            return "user/order/editOrder";
+        }
+        BookOrder edit = bookOrderDao.findById(id);
+        edit.setTitle(newOrder.getTitle());
+        edit.setAuthor(newOrder.getAuthor());
+
+        bookOrderDao.save(edit);
+
+        return "redirect:/home";
+    }
+    @GetMapping(value = "user/orders")
+    public String showAllBookOrders(Model model) {
+
+        model.addAttribute("bookOrders",bookOrderDao.findAll());
+
+        return "user/order/allOrders";
+    }
+    @GetMapping(value = "user/admin/manageUsers")
+    public String manageUsers(Model model) {
+
+        model.addAttribute("users", userDao.findAll());
+
+        return "user/users";
+    }
+    @GetMapping(value = "user/admin/manageOrders")
+    public String manageBookOrders(Model model) {
+
+        model.addAttribute("bookOrders",bookOrderDao.findAll());
+
+        return "user/order/manage";
+    }
+    @PostMapping(value = "user/admin/manageOrders")
+    public String processBookOrders(Model model, @PathVariable int id) {
+
+        BookOrder order = bookOrderDao.findById(id);
+        order.setPlaced(true);
+        bookOrderDao.save(order);
+
+        return "user/order/manage";
     }
 
 }

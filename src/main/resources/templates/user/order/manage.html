@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+
+<head th:replace="fragments :: head"></head>
+
+<body class="container-fluid">
+
+<h1 th:replace="fragments :: logo"></h1>
+<nav th:replace="fragments :: navigation"></nav>
+
+
+<table class="table">
+    <tr>
+        <th>Title</th>
+        <th>Author</th>
+    </tr>
+    <tr th:if="${bookList}" th:each="bookOrder : ${bookOrders}">
+        <td th:text="${bookOrder.title}"></td>
+        <td th:text="${bookOrder.author}"></td>
+    </tr>
+</table>
+
+
+</body>
+</html>

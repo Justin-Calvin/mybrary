@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+
+<head th:replace="fragments :: head"></head>
+
+<body class="container-fluid">
+
+    <h1 th:replace="fragments :: logo"></h1>
+    <nav th:replace="fragments :: navigation"></nav>
+
+    <div class="container-fluid">
+        <h1 class="logo">MyBrary</h1>
+        <p class="logoT" th:text="${customer.firstName} + ' ' + ${customer.lastName} + ' Favorites'"></p>
+    </div>
+
+    <a th:href="@{/customer/{id}/favorite/add(id=${customer.id})}">Add Book to Favorites</a>
+
+    <table class="table">
+        <tr>
+            <th>Title</th>
+            <th>Author</th>
+        </tr>
+        <tr th:if="${favorites}" th:each="favorite : ${favorites}">
+            <td th:text="${favorite.title}"></td>
+            <td th:text="${favorite.author}"></td>
+            <td>
+                <a th:href="@{/customer/favorite/remove/{id}(id=${favorite.id})}">Remove</a> |
+                <a th:href="@{/customer/favorite/edit/{id}(id=${favorite.id})}">Edit</a>
+            </td>
+        </tr>
+    </table>
+
+
+</body>
+</html>

@@ -19,8 +19,16 @@
             <a class="btn btn-primary" href="/search" role="button">Search Inventory</a>
             <a class="btn btn-primary" href="/search/inventory" role="button">View Full Inventory</a>
             <a class="btn btn-primary" href="/add" role="button">Add Book to Inventory</a>
-            <a class="btn btn-primary" onclick="document.forms['logoutForm'].submit()">Log Out</a>
+             <a class="btn btn-primary" href="/customer/menu" role="button">View Customer Database</a>
          </a>
+    </div>
+    <div class="text-center">
+        <a class="btn-group-vertical">
+            <a class="btn btn-primary" th:href="@{/user/{id}/orders(id=${user.id})}" role="button">View your Orders</a>
+            <a class="btn btn-primary" th:href="@{/user/{id}/edit(id=${user.id})}" role="button">Edit your Username or Password</a>
+            <a class="btn btn-primary" th:href="@{/user/{id}/remove(id=${user.id})}" role="button">Remove this Account</a>
+            <a class="btn btn-primary" onclick="document.forms['logoutForm'].submit()">Log Out</a>
+        </a>
     </div>
 
 </body>

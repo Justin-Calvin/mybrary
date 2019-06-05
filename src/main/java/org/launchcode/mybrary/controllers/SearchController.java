@@ -11,7 +11,9 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
@@ -26,7 +28,7 @@ public class SearchController {
     @Autowired
     private BookDao bookDao;
 
-    @RequestMapping(value = "")
+    @GetMapping(value = "")
     public String searchForm(Model model) {
 
         model.addAttribute(new SearchForm());
@@ -34,27 +36,30 @@ public class SearchController {
         return "search/search";
     }
 
-    @RequestMapping(value = "results")
+    @PostMapping(value = "results")
     public String searchResults(Model model,
-                         @ModelAttribute @Valid SearchForm searchForm) {
+                         @ModelAttribute @Valid SearchForm searchForm, Errors errors) {
 
-        if (searchForm.getTitleTerm().length() == 0) {
-            model.addAttribute("error","Field Must Have 1-100 characters");
+        if (errors.hasErrors()) {
             return "search/search";
         }
 
+
         ArrayList<Book> titles;
+        ArrayList<Book> authors;
         Integer count;
         titles = bookDao.findByTitle(searchForm.getTitleTerm());
+        authors = bookDao.findByAuthor(searchForm.getAuthorTerm());
         count = titles.size();
 
+        model.addAttribute("authors", authors);
         model.addAttribute("count", count);
         model.addAttribute("titles", titles);
 
         return "search/results";
     }
 
-    @RequestMapping(value = "inventory")
+    @GetMapping(value = "inventory")
     public String viewInventory(Model model) {
 
         model.addAttribute("count",bookDao.count());

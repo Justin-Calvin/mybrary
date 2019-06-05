@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+
+<head th:replace="fragments :: head"></head>
+
+<body class="container-fluid">
+
+<h1 th:replace="fragments :: logo"></h1>
+<nav th:replace="fragments :: navigation"></nav>
+
+<div class="container-fluid" align="center" style="color:red; font-family:courier; font-weight:bold;">
+    CONFIRM DELETION</div>
+<div class="container-fluid" align="center" style="color:red; font-family:courier; font-weight:bold;">
+    Are you sure you would like to remove this user?</div>
+
+<table class="table">
+    <tr>
+        <th>Username</th>
+
+    </tr>
+    <tr>
+        <td th:text="${user.username}"></td>
+
+    </tr>
+</table>
+<form method="post">
+    <input type="hidden" th:value="${user.id}" name="id" />
+    <input type="submit" value="Remove User">
+    <input type="submit" value="Keep User" href="/">
+</form>
+
+
+</body>
+</html>

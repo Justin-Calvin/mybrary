@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+
+<head th:replace="fragments :: head"></head>
+
+<body class="container-fluid">
+
+<h1 th:replace="fragments :: logo"></h1>
+<nav th:replace="fragments :: navigation"></nav>
+
+<a href="/customer/add">Add Customer to List</a>
+
+<table class="table">
+    <tr>
+        <th>Title</th>
+        <th>Author</th>
+        <th>Email</th>
+        <th>Phone</th>
+    </tr>
+    <tr th:each="customer : ${customers}">
+        <td th:text="${customer.firstName}"></td>
+        <td th:text="${customer.lastName}"></td>
+        <td th:text="${customer.email}"></td>
+        <td th:text="${customer.phone}"></td>
+        <td>
+            <a th:href="@{remove/{id}(id=${customer.id})}">Remove</a> |
+            <a th:href="@{edit/{id}(id=${customer.id})}">Edit</a> |
+            <a th:href="@{{id}/favorites(id=${customer.id})}">Favorites</a> |
+            <a th:href="@{{id}/wishList(id=${customer.id})}">WishList</a>
+        </td>
+    </tr>
+</table>
+
+
+</body>
+</html>

@@ -1,37 +1,25 @@
 package org.launchcode.mybrary.models;
 
-
-
-import org.springframework.boot.autoconfigure.domain.EntityScan;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.validation.constraints.Min;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.Set;
 
-@Entity
-public class Book {
+@MappedSuperclass
+public abstract class Order {
 
     @Id
-    @GeneratedValue
-    private int id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    protected int id;
 
     @NotNull
     @Size(min = 1, max = 100, message = "Title must be between 1-100 characters")
-    private String title;
+    @Column
+    protected String title;
 
     @NotNull
     @Size(min = 1, max = 100, message = "Author must be between 1-100 characters")
-    private String author;
-
-    @Min(value = 0, message = "Stock must be a positive number")
-    private int stock;
-
-
+    @Column
+    protected String author;
 
     public int getId() {
         return id;
@@ -56,13 +44,4 @@ public class Book {
     public void setAuthor(String author) {
         this.author = author;
     }
-
-    public int getStock() {
-        return stock;
-    }
-
-    public void setStock(int stock) {
-        this.stock = stock;
-    }
-
 }

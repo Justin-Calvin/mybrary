@@ -18,7 +18,7 @@ public class User {
     private String username;
 
     @NotNull
-    @Size(min = 8, message = "Please use between 8 and 40 characters.")
+    @Size(min = 8, message = "Please use between 5 and 40 characters.")
     private String password;
 
     @Transient
@@ -29,6 +29,11 @@ public class User {
 
     @ManyToMany
     private Set<Role> roles;
+
+    @ManyToMany
+    private Set<BookOrder> orders;
+
+
 
     public int getId() {
         return id;
@@ -86,5 +91,14 @@ public class User {
     public void setTokenExpired(boolean tokenExpired) {
         this.tokenExpired = tokenExpired;
     }
+
+    public Set<BookOrder> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(Set<BookOrder> orders) {
+        this.orders = orders;
+    }
+
 }
 

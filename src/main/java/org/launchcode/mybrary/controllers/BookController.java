@@ -35,13 +35,13 @@ public class BookController {
     }
 
     @RequestMapping(value = "add", method = RequestMethod.POST)
-    public String processAddForm(@ModelAttribute @Valid Book newbook, Errors errors, Model model) {
+    public String processAddForm(@ModelAttribute @Valid Book newBook, Errors errors, Model model) {
 
         if (errors.hasErrors()) {
             return "add";
         }
 
-        bookDao.save(newbook);
+        bookDao.save(newBook);
         model.addAttribute("success","book has been registered!");
         return "add";
     }
@@ -60,19 +60,19 @@ public class BookController {
         Book bye = bookDao.findById(id);
         bookDao.delete(bye);
 
-        return "redirect:/home";
+        return "redirect:/search/inventory";
     }
 
-    @RequestMapping(value = "edit/{bookId}", method = RequestMethod.GET)
-    public String displayEditForm(Model model, @PathVariable int bookId) {
+    @RequestMapping(value = "edit/{id}", method = RequestMethod.GET)
+    public String displayEditForm(Model model, @PathVariable int id) {
 
-        model.addAttribute("book", bookDao.findById(bookId));
+        model.addAttribute("book", bookDao.findById(id));
 
         return "edit";
     }
 
-    @RequestMapping(value = "edit/{bookId}", method = RequestMethod.POST)
-    public String processEditForm(Model model, @PathVariable int bookId,
+    @RequestMapping(value = "edit/{id}", method = RequestMethod.POST)
+    public String processEditForm(Model model, @PathVariable int id,
                                   @ModelAttribute @Valid Book newBook,
                                   Errors errors) {
 
@@ -80,7 +80,7 @@ public class BookController {
             return "edit";
         }
 
-        Book editedBook = bookDao.findById(bookId);
+        Book editedBook = bookDao.findById(id);
         editedBook.setTitle(newBook.getTitle());
         editedBook.setAuthor(newBook.getAuthor());
         editedBook.setStock(newBook.getStock());

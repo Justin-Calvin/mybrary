@@ -1,23 +1,16 @@
 package org.launchcode.mybrary.models;
 
-
-
-import org.springframework.boot.autoconfigure.domain.EntityScan;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.validation.constraints.Min;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-public class Book {
+public class Favorite {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
     @NotNull
@@ -28,10 +21,18 @@ public class Book {
     @Size(min = 1, max = 100, message = "Author must be between 1-100 characters")
     private String author;
 
-    @Min(value = 0, message = "Stock must be a positive number")
-    private int stock;
+    @ManyToMany(mappedBy = "favorites")
+    private Set<Customer> customers;
 
 
+
+    public Set<Customer> getCustomers() {
+        return customers;
+    }
+
+    public void setCustomers(Set<Customer> customers) {
+        this.customers = customers;
+    }
 
     public int getId() {
         return id;
@@ -56,13 +57,5 @@ public class Book {
     public void setAuthor(String author) {
         this.author = author;
     }
-
-    public int getStock() {
-        return stock;
-    }
-
-    public void setStock(int stock) {
-        this.stock = stock;
-    }
-
 }
+

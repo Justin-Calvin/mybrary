@@ -21,6 +21,7 @@ import org.springframework.validation.ValidationUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Set;
 
 @Controller
 public class UserController {
@@ -259,17 +260,51 @@ public class UserController {
     public String manageBookOrders(Model model) {
 
         model.addAttribute("bookOrders",bookOrderDao.findAll());
+        model.addAttribute("user",userDao.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
 
         return "user/order/manage";
     }
-    @PostMapping(value = "user/admin/manageOrders")
-    public String processBookOrders(Model model, @PathVariable int id) {
+    @GetMapping(value = "user/admin/manageOrders/clear")
+    public String confirmClearOrders(Model model) {
+
+        return "user/order/clear";
+    }
+    @PostMapping(value = "user/admin/manageOrders/clear")
+    public String processClearOrders(Model model) {
+
+        for (BookOrder order : bookOrderDao.findAll()) {
+            if (order.isFilled() == true) {
+                bookOrderDao.delete(order);
+            }
+        }
+
+        return "redirect:/user/admin/manageOrders";
+
+    }
+    @GetMapping(value = "/user/admin/updateOrder/{id}")
+    public String updateOrderForm(Model model, @PathVariable int id) {
 
         BookOrder order = bookOrderDao.findById(id);
-        order.setPlaced(true);
-        bookOrderDao.save(order);
+        model.addAttribute("bookOrder",order);
 
-        return "user/order/manage";
+        return "user/order/update";
+    }
+    @PostMapping(value = "/user/admin/updateOrder/{id}")
+    public String processUpdateForm(Model model, @PathVariable int id,
+                                    @ModelAttribute @Valid BookOrder newOrder, Errors errors) {
+
+        if (errors.hasErrors()) {
+            return "user/order/update";
+        }
+        BookOrder edit = bookOrderDao.findById(id);
+        edit.setTitle(newOrder.getTitle());
+        edit.setAuthor(newOrder.getAuthor());
+        edit.setPlaced(newOrder.isPlaced());
+        edit.setFilled(newOrder.isFilled());
+
+        bookOrderDao.save(edit);
+
+        return "redirect:/user/admin/manageOrders";
     }
 
 }

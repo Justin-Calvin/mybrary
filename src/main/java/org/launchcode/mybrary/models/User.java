@@ -18,14 +18,12 @@ public class User {
     private String username;
 
     @NotNull
-    @Size(min = 8, message = "Please use between 5 and 40 characters.")
+    @Size(min = 5, message = "Please use between 5 and 40 characters.")
     private String password;
 
     @Transient
     private String passwordConfirm;
 
-    private boolean enabled;
-    private boolean tokenExpired;
 
     @ManyToMany
     private Set<Role> roles;
@@ -76,21 +74,6 @@ public class User {
         this.roles = roles;
     }
 
-    public boolean isEnabled() {
-        return enabled;
-    }
-
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-    }
-
-    public boolean isTokenExpired() {
-        return tokenExpired;
-    }
-
-    public void setTokenExpired(boolean tokenExpired) {
-        this.tokenExpired = tokenExpired;
-    }
 
     public Set<BookOrder> getOrders() {
         return orders;

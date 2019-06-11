@@ -8,15 +8,21 @@
 <h1 th:replace="fragments :: logo"></h1>
 <nav th:replace="fragments :: navigation"></nav>
 
+<a th:href="@{/user/{id}/order/add(id=${user.id})}">Add new book order</a> |
+<a th:href="@{/user/admin/manageOrders/clear}">Clear Filled Orders</a>
+
 
 <table class="table">
     <tr>
         <th>Title</th>
         <th>Author</th>
     </tr>
-    <tr th:if="${bookList}" th:each="bookOrder : ${bookOrders}">
+    <tr th:if="${bookOrders}" th:each="bookOrder : ${bookOrders}">
         <td th:text="${bookOrder.title}"></td>
         <td th:text="${bookOrder.author}"></td>
+        <td>
+            <a th:href="@{/user/admin/updateOrder/{id}(id=${bookOrder.id})}">View/Update Status</a>
+        </td>
     </tr>
 </table>
 

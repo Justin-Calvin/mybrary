@@ -30,6 +30,13 @@
             <a class="btn btn-primary" onclick="document.forms['logoutForm'].submit()">Log Out</a>
         </a>
     </div>
+    <div th:if="${username == 'Admin'}" class="text-center">
+        <a class="btn-group-vertical">
+            <a class="btn btn-primary" th:href="@{/user/admin/manageUsers}" role="button">Manage Users</a>
+            <a class="btn btn-primary" th:href="@{/user/admin/manageOrders}" role="button">Manage Orders</a>
+        </a>
+
+    </div>
 
 </body>
 </html>

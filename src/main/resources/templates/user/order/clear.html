@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+
+<head th:replace="fragments :: head"></head>
+
+<body class="container-fluid">
+
+<h1 th:replace="fragments :: logo"></h1>
+<nav th:replace="fragments :: navigation"></nav>
+
+<div class="container-fluid" align="center" style="color:red; font-family:courier; font-weight:bold;">
+    CONFIRM DELETION</div>
+<div class="container-fluid" align="center" style="color:red; font-family:courier; font-weight:bold;">
+    Are you sure you would like to clear all filled book orders?</div>
+
+<form method="post">
+    <input type="submit" value="Yes">
+    <input type="submit" value="No" href="/user/admin/manageOrders">
+</form>
+
+</body>
+</html>

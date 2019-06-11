@@ -9,7 +9,10 @@ import java.util.Set;
 public class BookOrder extends Order {
 
     @Column
-    private boolean placed;
+    private boolean placed = false;
+
+    @Column
+    private boolean filled = false;
 
 
     @ManyToMany(mappedBy = "orders")
@@ -23,6 +26,13 @@ public class BookOrder extends Order {
         this.placed = placed;
     }
 
+    public boolean isFilled() {
+        return filled;
+    }
+
+    public void setFilled(boolean filled) {
+        this.filled = filled;
+    }
 
     public Set<User> getUsers() {
         return users;

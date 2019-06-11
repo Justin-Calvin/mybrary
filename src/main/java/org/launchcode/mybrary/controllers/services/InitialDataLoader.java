@@ -55,7 +55,7 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
         Set<Privilege> userPrivileges = new HashSet<>(Arrays.asList(readPrivilege));
         createRoleIfNotFound("ROLE_ADMIN", adminPrivileges);
         createRoleIfNotFound("ROLE_USER", userPrivileges);
-
+        //Load ADMIN role into database//
 
 
         alreadySetup = true;

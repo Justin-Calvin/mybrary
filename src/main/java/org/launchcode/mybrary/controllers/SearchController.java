@@ -50,7 +50,7 @@ public class SearchController {
         Integer count;
         titles = bookDao.findByTitle(searchForm.getTitleTerm());
         authors = bookDao.findByAuthor(searchForm.getAuthorTerm());
-        count = titles.size();
+        count = (authors.size() + titles.size());
 
         model.addAttribute("authors", authors);
         model.addAttribute("count", count);

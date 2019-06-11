@@ -20,11 +20,17 @@
         <input class="form-control" th:field="*{author}"/>
         <span th:errors="*{author}" class="error"></span>
     </div>
+    <div class="form-group">
+        Placed <input type="radio" th:field="*{placed}" value="true" checked="true">
+        Not Placed <input type="radio" th:field="*{placed}" value="false" checked="false">
+    </div>
+    <div class="form-group">
+        Filled <input type="radio" th:field="*{filled}" value="true" checked="true">
+        Not Filled <input type="radio" th:field="*{filled}" value="false" checked="false">
+    </div>
 
     <input type="submit" value="Save Changes" />
 </form>
 
 
-
 </body>
-</html>
